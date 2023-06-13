@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_notes_app/pages/form_pagea.dart';
 import 'package:flutter_notes_app/widgets/card_widget.dart';
 
 import '../models/note.dart';
@@ -67,7 +68,11 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(30),
         ),
         backgroundColor: Colors.blue.shade300,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return const FormPage();
+          }));
+        },
         child: const Icon(
           Icons.note_add,
           color: Colors.white,
