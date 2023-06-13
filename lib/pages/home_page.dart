@@ -62,6 +62,17 @@ class _HomePageState extends State<HomePage> {
           itemCount: notes.length,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        backgroundColor: Colors.blue.shade300,
+        onPressed: () {},
+        child: const Icon(
+          Icons.note_add,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
