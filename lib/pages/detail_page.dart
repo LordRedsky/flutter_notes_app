@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_notes_app/pages/form_pagea.dart';
+import 'package:flutter_notes_app/pages/form_page.dart';
 import 'package:flutter_notes_app/utils/notes_database.dart';
 
 import '../models/note.dart';
@@ -48,7 +48,7 @@ class _DetailPageState extends State<DetailPage> {
               );
               refreshNote();
             },
-            child: Icon(Icons.edit_note),
+            child: const Icon(Icons.edit_note),
           ),
           const SizedBox(width: 8),
           const Icon(Icons.delete),

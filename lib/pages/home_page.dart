@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/pages/detail_page.dart';
-import 'package:flutter_notes_app/pages/form_pagea.dart';
+import 'package:flutter_notes_app/pages/form_page.dart';
 import 'package:flutter_notes_app/utils/notes_database.dart';
 import 'package:flutter_notes_app/widgets/card_widget.dart';
 
