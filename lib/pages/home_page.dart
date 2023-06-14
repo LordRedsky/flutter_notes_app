@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/pages/form_pagea.dart';
+import 'package:flutter_notes_app/utils/notes_database.dart';
 import 'package:flutter_notes_app/widgets/card_widget.dart';
 
 import '../models/note.dart';
@@ -39,6 +40,32 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
+  bool isLoading = false;
+
+  Future refreshNotes() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    notes = await NotesDatabase.instance.readAllNotes();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    refreshNotes();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    NotesDatabase.instance.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,32 +73,38 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Buku Catatan'),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-          ),
-          itemBuilder: (context, index) {
-            return CardWidget(
-              index: index,
-              note: notes[index],
-            );
-          },
-          itemCount: notes.length,
-        ),
-      ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                ),
+                itemBuilder: (context, index) {
+                  return CardWidget(
+                    index: index,
+                    note: notes[index],
+                  );
+                },
+                itemCount: notes.length,
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
         backgroundColor: Colors.blue.shade300,
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        onPressed: () async {
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
             return const FormPage();
           }));
+          refreshNotes();
         },
         child: const Icon(
           Icons.note_add,

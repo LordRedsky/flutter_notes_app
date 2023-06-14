@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_notes_app/utils/notes_database.dart';
+
+import '../models/note.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -11,6 +14,20 @@ class _FormPageState extends State<FormPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
 
+  Future addNote() async {
+    final note = Note(
+      title: titleController.text,
+      description: descController.text,
+      time: DateTime.now(),
+    );
+
+    // print(titleController.text);
+
+    await NotesDatabase.instance.create(note);
+    Navigator.of(context).pop();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +35,12 @@ class _FormPageState extends State<FormPage> {
         title: const Text(
           'Form',
         ),
-        actions: const [
-          Icon(Icons.save),
-          SizedBox(
+        actions: [
+          InkWell(
+            onTap: addNote,
+            child: const Icon(Icons.save),
+          ),
+          const SizedBox(
             width: 18,
           )
         ],
@@ -74,6 +94,13 @@ class _FormPageState extends State<FormPage> {
                     color: Colors.grey,
                   ),
                   borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.grey,
+                  ),
                 ),
                 hintText: 'Catatan...',
                 hintStyle: const TextStyle(

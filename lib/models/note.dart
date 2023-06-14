@@ -42,11 +42,12 @@ class Note {
       id: map['id'] != null ? map['id'] as int : null,
       title: map['title'] as String,
       description: map['description'] as String,
-      time: DateTime.fromMillisecondsSinceEpoch(map['time'] as int),
+      time: DateTime.fromMillisecondsSinceEpoch(int.parse(map['time'])),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Note.fromJson(String source) => Note.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Note.fromJson(String source) =>
+      Note.fromMap(json.decode(source) as Map<String, dynamic>);
 }
